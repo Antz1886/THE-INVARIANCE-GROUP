@@ -1,0 +1,30 @@
+# Sovereign Cloud: AWS, Azure, & GCP Johannesburg Region Adequacy
+
+*Published by the Cloud Architecture Board of The Invariance Group*  
+*Classification: Technical Assessment • Sovereign Cloud*
+
+Section 72 of the Protection of Personal Information Act (POPIA) regulates the transfer of personal information outside the borders of South Africa. Organizations utilizing global cloud providers must ensure that data remains localized, or transfers are covered by binding adequacy agreements.
+
+This paper assesses the local cloud region architectures of the major hyperscalers in Johannesburg (Gauteng) for data residency and POPIA compliance.
+
+## 1. Johannesburg Region Comparison
+
+| Hyperscaler | Region Code | Launch Status | POPIA Data Residency Guarantee |
+| :--- | :--- | :--- | :--- |
+| **Google Cloud** | `africa-south1` | Active (Johannesburg) | Localized storage and processing defaults |
+| **AWS** | `af-south-1` | Active (Cape Town / JHB points) | Localized storage and multi-AZ isolation |
+| **Microsoft Azure** | `South Africa North` | Active (Johannesburg) | Regional residency settings |
+
+## 2. Network Latency & Pathing Analysis
+
+For real-time quantitative operations, latency to local exchanges is critical. Operations running inside Gauteng hubs achieve:
+
+*   **Local Fiber Cross-Connect**: &lt; 2ms latency from Isando/Sandton carrier hotels to local cloud servers.
+*   **Transit Reliability**: Reduced reliance on undersea cables (WACS, EASSy) for core transactional operations.
+
+### Configuration Recommendations
+
+1.  **Enforce Region Constraints**: Lock Kubernetes deployments specifically to `africa-south1` (GCP) or `af-south-1` (AWS).
+2.  **Disable Multi-Region Replication**: Ensure backup arrays do not replicate to European or American database zones automatically.
+
+For cloud routing assessment templates, contact our architecture desk at [advisory@invariance.co.za](mailto:advisory@invariance.co.za).

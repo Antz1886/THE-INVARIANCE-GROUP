@@ -1,0 +1,37 @@
+# Human-in-the-Loop Validation Safeguards for Legal AI Pipelines
+
+*Published by the Legal Advisory Board of The Invariance Group*  
+*Classification: Technical Briefing • AI Legal Governance*
+
+Delegating contract review and legal triage to artificial intelligence introduces significant regulatory and liability hazards. If a cognitive model incorrectly classifies an indemnity clause or overlooks a POPIA exposure, the parent enterprise faces heavy legal exposure.
+
+This briefing paper details the human-in-the-loop (HITL) safeguards engineered into the **Compliance Invariance (Clarity)** contract triage pipeline.
+
+## 1. Threshold-Based Escalation Boundaries
+
+Clarity evaluates incoming legal documents using semantic score thresholds:
+
+```
+[Contract Upload] -> [Analyze Indemnity/Liability Clauses]
+                           |
+                           v
+            Is Confidence Score > 95%?
+                  /         \
+              (Yes)         (No)
+                /             \
+  [Automatic Approval]     [Escalate to Internal Legal Counsel]
+```
+
+### Classification Risk Categories
+
+1.  **Low Risk (Automated)**: Routine NDA templates matching pre-approved structural layouts with &gt; 95% similarity.
+2.  **Medium Risk (Flagged)**: Procurement contracts with modified liability caps or custom data processing addendums. Escalated to internal legal hubs.
+3.  **High Risk (Blocked)**: Cross-border service agreements with foreign arbitration clauses or non-standard indemnity commitments. Blocked for attorney redlining.
+
+## 2. Audit Trail & Verification Log
+
+Every automated triage event generates a validation block:
+*   **Hash Anchoring**: Contract drafts are mapped to a secure cryptographically signed SHA-256 hash to prevent post-analysis tampering.
+*   **Rationale Compilation**: The AI model logs the exact logic path used to classify each clause, ensuring attorneys can quickly audit decisions.
+
+For deployment documentation, contact our legal AI team at [advisory@invariance.co.za](mailto:advisory@invariance.co.za).

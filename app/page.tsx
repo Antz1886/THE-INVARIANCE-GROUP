@@ -669,13 +669,22 @@ export default function Home() {
             <p className="text-slate-300 text-xs md:text-sm font-sans mb-5 leading-relaxed">
               Access technical architectures, compliance assessments, and data sovereignty blueprints prepared for CIOs and Chief Risk Officers.
             </p>
-            <Link 
-              href="/whitepapers/sovereignty"
-              className="inline-flex items-center gap-2 text-xs font-mono text-accent-purple hover:text-white transition-colors animate-pulse"
-            >
-              <span>Read Briefing: SA Data Sovereignty & Isolated Compute</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mt-4 pt-2 border-t border-slate-900">
+              <Link 
+                href="/whitepapers/sovereignty"
+                className="inline-flex items-center gap-2 text-xs font-mono text-accent-purple hover:text-white transition-colors"
+              >
+                <span>Read Briefing: SA Data Sovereignty</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+              <Link 
+                href="/whitepapers"
+                className="inline-flex items-center gap-2 text-xs font-mono text-slate-400 hover:text-white transition-colors border-t sm:border-t-0 sm:border-l border-slate-800 pt-2 sm:pt-0 sm:pl-6"
+              >
+                <span>Explore Full Briefing Library (11 Papers)</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -1026,8 +1035,8 @@ export default function Home() {
               <span>© {new Date().getFullYear()} The Invariance Group (Pty) Ltd. All rights reserved.</span>
             </div>
             <div className="flex gap-6">
-              <span className="hover:text-slate-400 cursor-pointer">Privacy & POPIA Matrix</span>
-              <span className="hover:text-slate-400 cursor-pointer">System Terms of SLA</span>
+              <Link href="/legal/privacy-popia" className="hover:text-slate-400 transition-colors">Privacy & POPIA Matrix</Link>
+              <Link href="/legal/sla-terms" className="hover:text-slate-400 transition-colors">System Terms of SLA</Link>
             </div>
           </div>
         </div>

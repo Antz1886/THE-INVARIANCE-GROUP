@@ -1,0 +1,37 @@
+# Hardware Blueprint: Specifying FieldForce Edge Gateways with Solar Failovers
+
+*Published by the Edge Engineering Board of The Invariance Group*  
+*Classification: Hardware Blueprint • Supply Chain Resilience*
+
+Supply chain coordination under grid instability requires decentralized, physically resilient edge compute nodes. If depot networks lose power, dispatch routines must continue running locally.
+
+This document specifies the hardware, power storage, and network mesh specifications for deploying **Supply Chain Invariance (FieldForce)** edge gateways.
+
+## 1. Gateway Unit Specification
+
+Edge nodes must support localized database lookups, neural routing models, and peer-to-peer Wi-Fi meshes:
+
+*   **Processor**: Industrial-grade Quad-Core ARM Cortex-A72 (minimum 1.5GHz) or x86 low-power SOC.
+*   **Memory**: 8GB LPDDR4 ECC RAM (to prevent bit-flip errors during power surges).
+*   **Storage**: 128GB industrial-grade SSD with high write tolerance (TBW 150+).
+
+## 2. Power Resiliency & Solar Specifications
+
+Depots must sustain operations through continuous loadshedding phases without battery exhaustion:
+
+*   **UPS Capacity**: 2kVA Pure Sine Wave Inverter.
+*   **Battery Chemistry**: Lithium Iron Phosphate (LiFePO4) - 24V 100Ah capacity (minimum 2.4kWh storage).
+*   **Solar Array Input**: 2 x 400W Monocrystalline PV panels to recharge batteries during daylight hours.
+
+## 3. Network Mesh Fallback
+
+If standard fiber links and cellular networks go offline:
+
+```
+[Depot Edge Gateway] <---(802.11s Wi-Fi Mesh / Bluetooth 5.2)---> [Delivery Vehicle Tablets]
+Range Capacity: Up to 150m radius
+```
+
+Gateways automatically activate localized 802.11s Wi-Fi mesh networking, establishing peer-to-peer data transfers between depot controllers and transport fleets.
+
+For procurement checklists and supplier details, contact our hardware engineering board at [advisory@invariance.co.za](mailto:advisory@invariance.co.za).

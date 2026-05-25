@@ -1,0 +1,58 @@
+# Reference Architecture: Deploying Cognitive Container Subnets
+
+*Published by the Infrastructure Systems Board of The Invariance Group*  
+*Classification: Technical Architecture • Sovereign Infrastructure*
+
+Deploying autonomous, agentic artificial intelligence within enterprise architecture requires more than just API integrations. C-Suite risk management requires that sensitive business databases, customer documents, and financial records never traverse third-party multi-tenant servers.
+
+This blueprint details the reference architecture for deploying cognitive containers inside an air-gapped enterprise Virtual Private Cloud (VPC).
+
+## 1. Network Topology & Isolation
+
+The architecture isolates the cognitive runtime inside private, non-routable subnets. There is zero ingress from the public internet.
+
+```
+[Internet] -> [Public Subnet (DMZ / ALB)] 
+                     |
+            (HTTPS Traffic Only)
+                     v
+[Private Subnet (Isolated Kubernetes / EKS / GKE Node Cluster)]
+                     |
+            (Private Link Only)
+                     v
+[Database Layer (On-Premises / Localized PostgreSQL / File Store)]
+```
+
+### Core Security Rules
+
+*   **Zero Internet Egress**: Database calls and inference models operate entirely locally. Model weights are cached inside the container images.
+*   **VPC Private Link**: Inter-service communication with legacy systems uses private endpoints, bypassing the public internet entirely.
+
+## 2. Infrastructure as Code (IaC) Integration
+
+All deployments are scripted via Terraform to ensure auditability and consistency. Below is a sample Terraform template representing security group containment:
+
+```hcl
+# Example Terraform Configuration for Sovereign Subnet Security
+resource "aws_security_group" "sovereign_compute" {
+  name        = "tig-sovereign-compute-sg"
+  description = "Block all public ingress and restrict egress to local DB VPC Peering"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = [var.allowed_internal_subnet_cidr]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [var.local_db_subnet_cidr]
+  }
+}
+```
+
+For custom deployment manifests and scripts, contact our infrastructure team at [advisory@invariance.co.za](mailto:advisory@invariance.co.za).

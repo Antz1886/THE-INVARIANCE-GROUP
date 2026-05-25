@@ -1,0 +1,40 @@
+# Technical Safeguards for Processing Personal Information under POPIA Section 19
+
+*Published by the Data Security Board of The Invariance Group*  
+*Classification: Institutional Briefing • Regulatory Compliance*
+
+Section 19 of the Protection of Personal Information Act (POPIA) mandates that responsible parties secure the integrity and confidentiality of personal information by taking appropriate, reasonable technical and organizational measures. Non-compliance risks regulatory fines, reputational damage, and operational shut-downs.
+
+This briefing paper details the technical security measures implemented by the **Compliance Invariance (Clarity)** engine to protect personal information during automated triage operations.
+
+## 1. Statutory Security Requirements
+
+Under POPIA Section 19, organizations must:
+- Identify internal and external risks to personal information.
+- Establish and maintain appropriate safeguards against those risks.
+- Regularly verify that the safeguards are effectively implemented.
+
+## 2. Air-Gapped Data Triaging
+
+To ensure compliance with Section 19, the Clarity engine processes raw client data exclusively inside isolated tenant virtual private clouds.
+
+```bash
+# Verify air-gapped compute connectivity
+ping-invariance-node --verify-airgap --node-id=CLARITY-ZA-01
+```
+
+### Technical Processing Safeguards
+
+1.  **Zero Leakage Redaction**: All Customer-Identifying Information (CII) and Personal Identifiable Information (PII) is automatically anonymized at ingestion before entering cognitive queues.
+2.  **In-Memory Processing**: Data is processed in transient memory states and is never persisted to disk, eliminating post-processing vulnerability footprints.
+3.  **Encrypted Local Ledgers**: Any audit logs compiled for compliance reviews are encrypted locally using AES-256-GCM algorithms.
+
+## 3. Threat Assessment Matrix
+
+| Vector | Potential Risk | Technical Control |
+| :--- | :--- | :--- |
+| **Data Transit** | Interception of customer contracts | Local TLS 1.3 encrypted pipelines inside the client VPC |
+| **Model Ingestion** | Indirect training leakages | Closed local inference loops with zero external APIs |
+| **Audit Logs** | Unencrypted exposure of actions | Encrypted log hashes stored on client-managed HSMs |
+
+For inquiries regarding localized data security setups, contact our risk management board at [advisory@invariance.co.za](mailto:advisory@invariance.co.za).

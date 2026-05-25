@@ -1,0 +1,30 @@
+# PCI-DSS Compliant Biometric Handshakes in Conversational Commerce
+
+*Published by the Security Architecture Board of The Invariance Group*  
+*Classification: Technical Briefing • Financial Security*
+
+High-ticket conversational commerce channels are vulnerable to identity spoofing, session hijacking, and transactional fraud. Securing high-value digital settlements inside chat platforms requires identity assurance that works natively with localized banking rails while maintaining strict compliance with global PCI-DSS standards.
+
+This briefing details the security framework behind the **Revenue Invariance (Buddy AI)** conversational interface.
+
+## 1. Cryptographic Handshake Protocol
+
+To prevent session hijacking, Buddy AI replaces text passwords with hardware-bound, public-key cryptographic signatures.
+
+```
+[User App] -> [Generate Transient Challenge] -> [Biometric Verification (FaceID/Fingerprint)] -> [Private Key Signs Challenge] -> [Secure Bank API verification]
+Verification Latency: < 8ms
+```
+
+### Key Security Guardrails
+
+1.  **Device-Bound Credentials**: Private keys are generated within the user's mobile device Secure Enclave and never leave the device.
+2.  **PCI-DSS Isolation**: Transaction payloads are processed inside sandboxed environments detached from the chat history databases.
+3.  **Audit Traceability**: Each transaction compiles a cryptographically hashed compliance receipt stored in a secure local database.
+
+## 2. Risk Mitigation Performance
+
+*   **Identity Spoofing**: Zero successful impersonation attacks recorded due to mandatory multi-factor biometric bindings.
+*   **Transaction Integrity**: Double-spending and transaction alteration are prevented via cryptographic sequence hashing.
+
+For integration guides, contact our security team at [advisory@invariance.co.za](mailto:advisory@invariance.co.za).

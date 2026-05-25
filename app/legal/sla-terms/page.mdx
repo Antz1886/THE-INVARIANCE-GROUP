@@ -1,0 +1,35 @@
+# System Terms of Service Level Agreement (SLA)
+
+*Effective Date: 26 May 2026*  
+*Classification: Public Standard Terms • The Invariance Group (Pty) Ltd*
+
+These terms govern the service level commitments, response timelines, and maintenance protocols applicable to enterprise retainers engaged with The Invariance Group.
+
+## 1. Uptime Commitment
+
+We commit to a **99.999% Service Availability** level for all core cognitive engine APIs deployed within client VPC nodes.
+
+```
+Availability = (Total Hours - Downtime Hours) / Total Hours >= 99.999%
+```
+
+*   **Excluded Downtime**: Scheduled maintenance windows pre-approved by the client's technology steering committee, and force majeure events (including municipal grid failure beyond local solar capacity).
+*   **Failover Protocol**: In the event of primary node failure, FieldForce edge meshes and container clusters automatically redirect traffic to localized backup nodes within **50ms**.
+
+## 2. Response Time Thresholds
+
+Technical incidents are classified by operational severity. Response times from our Gauteng advisory desk are guaranteed as follows:
+
+| Severity Level | Definition | Response SLA | Mitigation SLA |
+| :--- | :--- | :--- | :--- |
+| **Critical (Tier-1)** | Complete operational halt (e.g., SARB filing queue blocked) | &lt; 15 minutes | &lt; 2 hours |
+| **Major (Tier-2)** | Degradation of processing throughput (&gt; 30% latency increase) | &lt; 1 hour | &lt; 6 hours |
+| **Minor (Tier-3)** | Non-blocking telemetry or reporting console anomalies | &lt; 4 hours | &lt; 24 hours |
+
+## 3. Maintenance & Patching Windows
+
+To maintain system integrity without disrupting business operations:
+- **Scheduled Maintenance**: Conducted between 02:00 and 04:00 SAST on Sundays.
+- **Vulnerability Patching**: Rolling hot patches are applied in memory with zero operational downtime.
+
+For custom SLA structuring or to review corporate retainer scopes, contact the advisory board at [advisory@invariance.co.za](mailto:advisory@invariance.co.za).
