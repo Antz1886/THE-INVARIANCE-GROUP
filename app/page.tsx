@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { 
   Shield, 
   Cpu, 
@@ -19,7 +20,10 @@ import {
   Phone, 
   ChevronRight,
   Globe,
-  Settings
+  Settings,
+  ArrowRightLeft,
+  BookOpen,
+  Layers
 } from "lucide-react";
 
 export default function Home() {
@@ -39,6 +43,52 @@ export default function Home() {
   const [systemUptime, setSystemUptime] = useState("99.9997%");
   const [liveNodes, setLiveNodes] = useState(128);
   const [lastAuditTime, setLastAuditTime] = useState("");
+  
+  // Planner Active Sector State
+  const [activePlannerSector, setActivePlannerSector] = useState<"compliance" | "capital" | "logistics" | "commerce">("compliance");
+
+  const plannerSectors = {
+    compliance: {
+      title: "Legal & Procurement (POPIA Clarity)",
+      metric: "85% Triage Speedup",
+      uptime: "99.999% Compliance Accuracy",
+      regulation: "POPIA Section 19 Safeguards",
+      latency: "Under 100ms per contract",
+      summary: "Automatically ingests, anonymizes, and indexes historical enterprise templates and procurement drafts, flag liability exposures natively.",
+      recommended: "Compliance Invariance (Clarity)",
+      steps: ["Ingest Document", "Anonymize PII", "Rule-Set Evaluation", "Approved Draft"]
+    },
+    capital: {
+      title: "Fintech & Exchange Control (Flipper)",
+      metric: "94% Zero-Touch Exception Rate",
+      uptime: "Real-time SARB Ledger Sync",
+      regulation: "SARB ExCon Section 3 Guidelines",
+      latency: "< 1.2s transaction processing",
+      summary: "Automates complex Balance of Payments (BoP) reporting and executes zero-touch exception handling for cross-border capital flows.",
+      recommended: "Capital Invariance (Flipper)",
+      steps: ["Monitor Rails", "Audit BoP Codes", "Automate Exception", "SARB Submission"]
+    },
+    logistics: {
+      title: "Supply Chain & Grid Resilience (FieldForce)",
+      metric: "100% Load-Shedding Resilience",
+      uptime: "Edge Node Failover Guarantee",
+      regulation: "Critical Infrastructure Security",
+      latency: "Offline-first capability",
+      summary: "Edge AI dispatch mapping for Gauteng corridors. Absorb transport friction and grid outages through localized neural rerouting.",
+      recommended: "Supply Chain Invariance (FieldForce)",
+      steps: ["Hub Telemetry", "Predict Outages", "Re-route Assets", "Edge Nodes Sync"]
+    },
+    commerce: {
+      title: "Conversational Commerce (Buddy AI)",
+      metric: "99.8% Payment Conversion",
+      uptime: "Biometric Crypto Authentication",
+      regulation: "PCI-DSS / POPIA Isolation",
+      latency: "< 8ms transaction sync",
+      summary: "Secures high-ticket transactional flows inside chat environments using private-key biometric handshake rails.",
+      recommended: "Revenue Invariance (Buddy AI)",
+      steps: ["Init Chat Session", "Biometric Verify", "Query Bank API", "Encrypted Settlement"]
+    }
+  };
 
   useEffect(() => {
     // Generate live-ish telemetry data
@@ -434,6 +484,102 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Interactive Architecture & ROI Planner */}
+      <section id="architecture-planner" className="relative z-10 max-w-7xl mx-auto px-6 py-20 lg:py-32 border-t border-slate-900 bg-[#020204]/80">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <span className="text-xs font-mono uppercase tracking-widest text-accent-blue block mb-3 font-semibold">
+            INTERACTIVE ADVISORY TOOL
+          </span>
+          <h2 className="font-display text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
+            Interactive Architecture Planner
+          </h2>
+          <p className="text-slate-400 font-sans text-sm md:text-base leading-relaxed">
+            Select an operational pillar below to configure your target sovereign compute metrics and view active cognitive routing flows.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          {/* Sector Buttons */}
+          <div className="lg:col-span-4 flex flex-col gap-3 justify-center">
+            {Object.entries(plannerSectors).map(([key, sector]) => (
+              <button
+                key={key}
+                onClick={() => setActivePlannerSector(key as any)}
+                className={`w-full text-left p-5 rounded-lg border transition-all duration-300 ${
+                  activePlannerSector === key
+                    ? "bg-slate-905/60 border-accent-blue/30 shadow-[0_0_15px_rgba(0,136,255,0.05)]"
+                    : "bg-[#050508]/40 border-slate-900 hover:border-slate-800"
+                }`}
+              >
+                <div className="font-display font-bold text-sm text-white mb-1">{sector.title}</div>
+                <span className="text-[10px] font-mono text-accent-blue uppercase tracking-wider">{sector.metric}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Interactive Flow Visualizer */}
+          <div className="lg:col-span-8 glass-card rounded-xl p-8 border border-slate-850 flex flex-col justify-between relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-accent-blue/5 rounded-full blur-2xl"></div>
+
+            <div>
+              <div className="flex flex-col sm:flex-row justify-between sm:items-center border-b border-slate-850 pb-4 mb-6">
+                <div>
+                  <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Active Engine</span>
+                  <h3 className="font-display font-bold text-lg text-white">{plannerSectors[activePlannerSector].recommended}</h3>
+                </div>
+                <div className="mt-2 sm:mt-0 px-3 py-1 rounded bg-[#0a0a0f] border border-slate-800 font-mono text-[10px] text-emerald-400">
+                  {plannerSectors[activePlannerSector].regulation}
+                </div>
+              </div>
+
+              <p className="text-slate-300 text-sm leading-relaxed mb-8">
+                {plannerSectors[activePlannerSector].summary}
+              </p>
+
+              {/* Dynamic Interactive Flow Diagram */}
+              <div className="bg-[#050508] border border-slate-900 rounded-lg p-6 mb-8">
+                <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest block mb-4">Sovereign Data Routing flow:</span>
+                
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center relative">
+                  {plannerSectors[activePlannerSector].steps.map((step, idx) => (
+                    <React.Fragment key={idx}>
+                      <div className="relative p-3 bg-slate-950 border border-slate-850 rounded text-center font-mono text-[10px] flex flex-col items-center justify-center">
+                        <div className="w-5 h-5 rounded-full bg-slate-900 border border-slate-800 text-[10px] flex items-center justify-center text-accent-blue mb-1.5 font-bold">
+                          {idx + 1}
+                        </div>
+                        <span className="text-slate-300 font-medium">{step}</span>
+                      </div>
+                      
+                      {idx < 3 && (
+                        <div className="hidden md:flex justify-center text-slate-700">
+                          <ChevronRight className="w-4 h-4 animate-pulse text-accent-blue/40" />
+                        </div>
+                      )}
+                    </React.Fragment>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Performance SLA Metrics */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-6 border-t border-slate-850 font-mono text-[11px] text-slate-400">
+              <div>
+                <span className="text-slate-500 block mb-1">AUDIT LATENCY:</span>
+                <span className="text-white font-bold">{plannerSectors[activePlannerSector].latency}</span>
+              </div>
+              <div>
+                <span className="text-slate-500 block mb-1">UPTIME LEVEL:</span>
+                <span className="text-emerald-400 font-bold">{plannerSectors[activePlannerSector].uptime}</span>
+              </div>
+              <div className="col-span-2 sm:col-span-1">
+                <span className="text-slate-500 block mb-1">SANDBOX RULE:</span>
+                <span className="text-accent-purple font-bold">ISOLATED SUBNET</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Methodology Section */}
       <section className="relative z-10 max-w-7xl mx-auto px-6 py-20 lg:py-32">
         <div className="text-center max-w-3xl mx-auto mb-20">
@@ -485,6 +631,90 @@ export default function Home() {
             </p>
             <div className="pt-4 border-t border-slate-900 text-xs font-mono text-slate-500">
               DELIVERABLE: SLA & COMPLIANCE SIGN-OFF
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Proofs of Value (Case Studies) & Technical Hub */}
+      <section id="proofs-of-value" className="relative z-10 max-w-7xl mx-auto px-6 py-20 lg:py-32 border-t border-slate-900 bg-[#040406]/60 backdrop-blur-sm">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-16">
+          <div className="lg:col-span-6">
+            <span className="text-xs font-mono uppercase tracking-widest text-accent-purple block mb-3 font-semibold">
+              INSTITUTIONAL PERFORMANCE LOG
+            </span>
+            <h2 className="font-display text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
+              Proofs of Value (PoVs)
+            </h2>
+            <p className="text-slate-400 font-sans text-sm md:text-base leading-relaxed">
+              Empirical evidence of operational stability, legal compliance, and load-shedding tolerance deployed within South Africa's primary economic corridors.
+            </p>
+          </div>
+          
+          {/* Briefing Center Card */}
+          <div className="lg:col-span-6 glass-card rounded-xl p-6 border border-slate-850 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-accent-purple/5 rounded-full blur-2xl"></div>
+            <div className="flex items-center gap-3 mb-4">
+              <BookOpen className="w-5 h-5 text-accent-purple" />
+              <h3 className="font-display font-bold text-base text-white">Knowledge Resource Hub</h3>
+            </div>
+            <p className="text-slate-305 text-xs md:text-sm font-sans mb-5 leading-relaxed">
+              Access technical architectures, compliance assessments, and data sovereignty blueprints prepared for CIOs and Chief Risk Officers.
+            </p>
+            <Link 
+              href="/whitepapers/sovereignty"
+              className="inline-flex items-center gap-2 text-xs font-mono text-accent-purple hover:text-white transition-colors animate-pulse"
+            >
+              <span>Read Briefing: SA Data Sovereignty & Isolated Compute</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+
+        {/* Case Studies Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* POV 1 */}
+          <div className="glass-card rounded-xl p-6 border border-slate-850 flex flex-col justify-between glass-card-hover">
+            <div>
+              <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest block mb-2">SECTOR: BANKING & TREASURY</span>
+              <h3 className="font-display font-bold text-base text-white mb-3">SARB Exchange Control & BoP Automation</h3>
+              <p className="text-slate-400 text-xs md:text-sm leading-relaxed mb-6">
+                Integrated the Flipper engine with corporate treasury rails for a leading import conglomerate, automating real-time Balance of Payments filings.
+              </p>
+            </div>
+            <div className="pt-4 border-t border-slate-900">
+              <div className="text-xl font-bold font-display text-white mb-1">R4.2B Daily Vol</div>
+              <span className="text-[10px] font-mono text-accent-blue uppercase tracking-widest block">94% Automated Exception Handling</span>
+            </div>
+          </div>
+
+          {/* POV 2 */}
+          <div className="glass-card rounded-xl p-6 border border-slate-850 flex flex-col justify-between glass-card-hover">
+            <div>
+              <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest block mb-2">SECTOR: FREIGHT & LOGISTICS</span>
+              <h3 className="font-display font-bold text-base text-white mb-3">Load-Shedding Fleet Dispatch Invariance</h3>
+              <p className="text-slate-400 text-xs md:text-sm leading-relaxed mb-6">
+                Deployed FieldForce neural dispatch nodes across distribution corridors in Gauteng, preventing logistics bottlenecks during grid shut-downs.
+              </p>
+            </div>
+            <div className="pt-4 border-t border-slate-900">
+              <div className="text-xl font-bold font-display text-white mb-1">Stage 6 Grid Immunity</div>
+              <span className="text-[10px] font-mono text-accent-blue uppercase tracking-widest block">14.8% Operational Fuel Savings</span>
+            </div>
+          </div>
+
+          {/* POV 3 */}
+          <div className="glass-card rounded-xl p-6 border border-slate-850 flex flex-col justify-between glass-card-purple-hover">
+            <div>
+              <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest block mb-2">SECTOR: CORPORATE LAW & M&A</span>
+              <h3 className="font-display font-bold text-base text-white mb-3">POPIA-Native Contract Redline Audit</h3>
+              <p className="text-slate-400 text-xs md:text-sm leading-relaxed mb-6">
+                Configured the Clarity engine to triage 18,500 historical vendor agreements, identifying POPIA Section 19 regulatory exposures in M&A due diligence.
+              </p>
+            </div>
+            <div className="pt-4 border-t border-slate-900">
+              <div className="text-xl font-bold font-display text-white mb-1">14-Day Audit Turnaround</div>
+              <span className="text-[10px] font-mono text-accent-purple uppercase tracking-widest block">R3.8M Legal Operations Spend Saved</span>
             </div>
           </div>
         </div>
