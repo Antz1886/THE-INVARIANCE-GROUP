@@ -27,13 +27,16 @@ import {
 } from "lucide-react";
 
 export default function Home() {
-  // Client state for contact form
+  // Client state for high-ticket application form
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     org: "",
     role: "CIO",
     frictionArea: "compliance",
+    budget: "tier1",
+    hasSovereignAuthority: false,
+    isSubjectToExCon: false,
     details: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,6 +50,39 @@ export default function Home() {
   // Planner Active Sector State
   const [activePlannerSector, setActivePlannerSector] = useState<"compliance" | "capital" | "logistics" | "commerce">("compliance");
 
+  useEffect(() => {
+    // Generate live-ish telemetry data
+    const timer = setInterval(() => {
+      const noise = (Math.random() - 0.5) * 0.0002;
+      setSystemUptime((99.9995 + noise).toFixed(4) + "%");
+      setLiveNodes(prev => prev + (Math.random() > 0.5 ? 1 : -1));
+    }, 3000);
+
+    const now = new Date();
+    setLastAuditTime(now.toLocaleTimeString("en-ZA", { timeZone: "Africa/Johannesburg" }));
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    if (type === 'checkbox') {
+      const checked = (e.target as HTMLInputElement).checked;
+      setFormData(prev => ({ ...prev, [name]: checked }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setFormSubmitted(true);
+    }, 1500);
+  };
+
   const plannerSectors = {
     compliance: {
       title: "Legal & Procurement (POPIA Clarity)",
@@ -54,7 +90,7 @@ export default function Home() {
       uptime: "99.999% Compliance Accuracy",
       regulation: "POPIA Section 19 Safeguards",
       latency: "Under 100ms per contract",
-      summary: "Automatically ingests, anonymizes, and indexes historical enterprise templates and procurement drafts, flag liability exposures natively.",
+      summary: "Automatically ingests, anonymizes, and indexes historical enterprise templates and procurement drafts, flagging liability exposures natively without regulatory leakages.",
       recommended: "Compliance Invariance (Clarity)",
       steps: ["Ingest Document", "Anonymize PII", "Rule-Set Evaluation", "Approved Draft"]
     },
@@ -64,7 +100,7 @@ export default function Home() {
       uptime: "Real-time SARB Ledger Sync",
       regulation: "SARB ExCon Section 3 Guidelines",
       latency: "< 1.2s transaction processing",
-      summary: "Automates complex Balance of Payments (BoP) reporting and executes zero-touch exception handling for cross-border capital flows.",
+      summary: "Automates complex Balance of Payments (BoP) reporting and executes zero-touch exception handling for cross-border capital flows, bypassing bank queues.",
       recommended: "Capital Invariance (Flipper)",
       steps: ["Monitor Rails", "Audit BoP Codes", "Automate Exception", "SARB Submission"]
     },
@@ -88,34 +124,6 @@ export default function Home() {
       recommended: "Revenue Invariance (Buddy AI)",
       steps: ["Init Chat Session", "Biometric Verify", "Query Bank API", "Encrypted Settlement"]
     }
-  };
-
-  useEffect(() => {
-    // Generate live-ish telemetry data
-    const timer = setInterval(() => {
-      const noise = (Math.random() - 0.5) * 0.0002;
-      setSystemUptime((99.9995 + noise).toFixed(4) + "%");
-      setLiveNodes(prev => prev + (Math.random() > 0.5 ? 1 : -1));
-    }, 3000);
-
-    const now = new Date();
-    setLastAuditTime(now.toLocaleTimeString("en-ZA", { timeZone: "Africa/Johannesburg" }));
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setFormSubmitted(true);
-    }, 1500);
   };
 
   return (
@@ -167,7 +175,7 @@ export default function Home() {
               href="#retainer-portal"
               className="text-xs font-semibold px-4 py-2 bg-gradient-to-r from-accent-blue to-accent-purple text-white rounded border border-white/10 hover:shadow-[0_0_15px_rgba(0,136,255,0.4)] transition-all duration-300"
             >
-              Request Audit
+              Request Briefing
             </a>
           </div>
         </div>
@@ -200,7 +208,7 @@ export default function Home() {
                 href="#retainer-portal"
                 className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-accent-blue to-accent-purple text-white font-medium rounded border border-white/10 shadow-[0_4px_20px_rgba(0,136,255,0.15)] hover:shadow-[0_0_30px_rgba(0,136,255,0.3)] transition-all duration-300 group"
               >
-                <span>Request an Architecture Audit</span>
+                <span>Initialize Feasibility Briefing</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
               <a 
@@ -271,7 +279,7 @@ export default function Home() {
 
               {/* Visual Grid representing Node Network */}
               <div className="mt-6 pt-4 border-t border-slate-850 flex flex-col gap-2">
-                <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest block">Neural Node Topology:</span>
+                <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest block block">Neural Node Topology:</span>
                 <div className="grid grid-cols-6 gap-2 bg-[#050507] p-3 rounded border border-slate-900">
                   {Array.from({ length: 18 }).map((_, i) => (
                     <div 
@@ -373,7 +381,7 @@ export default function Home() {
                 </div>
               </div>
               <p className="text-slate-300 text-sm leading-relaxed mb-8">
-                The "Autonomous ExCon Officer." Quantitative fintech that automates SARB Balance of Payments (BoP) reporting and executes zero-touch exception handling for cross-border operations.
+                The "Autonomous ExCon Officer." Quantitative fintech that automates SARB Balance of Payments (BoP) reporting and executes zero-touch exception handling. Mitigates the average 1.2% in currency slippage and heavy administrative overhead caused by manual filing delays.
               </p>
             </div>
 
@@ -412,7 +420,7 @@ export default function Home() {
                 </div>
               </div>
               <p className="text-slate-300 text-sm leading-relaxed mb-8">
-                Edge AI-powered neural dispatch and predictive logistics. Built to absorb supply chain friction and guarantee operational uptime regardless of national grid instability or load-shedding.
+                Edge AI-powered neural dispatch and predictive logistics. Absorb transport friction and Stage 6 load-shedding grid instabilities (mitigating the standard 7.2% dispatch delay multiplier) to guarantee operational uptime.
               </p>
             </div>
 
@@ -485,7 +493,7 @@ export default function Home() {
       </section>
 
       {/* Interactive Architecture & ROI Planner */}
-      <section id="architecture-planner" className="relative z-10 max-w-7xl mx-auto px-6 py-20 lg:py-32 border-t border-slate-900 bg-[#020204]/80">
+      <section id="architecture-planner" className="relative z-10 max-w-7xl mx-auto px-6 py-20 lg:py-32 border-t border-slate-900 bg-[#020204]/85">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-xs font-mono uppercase tracking-widest text-accent-blue block mb-3 font-semibold">
             INTERACTIVE ADVISORY TOOL
@@ -507,7 +515,7 @@ export default function Home() {
                 onClick={() => setActivePlannerSector(key as any)}
                 className={`w-full text-left p-5 rounded-lg border transition-all duration-300 ${
                   activePlannerSector === key
-                    ? "bg-slate-905/60 border-accent-blue/30 shadow-[0_0_15px_rgba(0,136,255,0.05)]"
+                    ? "bg-slate-900/60 border-accent-blue/30 shadow-[0_0_15px_rgba(0,136,255,0.05)]"
                     : "bg-[#050508]/40 border-slate-900 hover:border-slate-800"
                 }`}
               >
@@ -606,7 +614,7 @@ export default function Home() {
               Rapid data ingestion utilizing historical client data to prove immediate, quantifiable ROI. No code changes to legacy systems are made at this stage.
             </p>
             <div className="pt-4 border-t border-slate-900 text-xs font-mono text-slate-500">
-              DELIVERABLE: PILOT ACCURACY REPORT
+              DELIVERABLE: SOVEREIGN FEASIBILITY MAP
             </div>
           </div>
 
@@ -618,7 +626,7 @@ export default function Home() {
               Customizing the cognitive engine on your isolated servers and building secure, encrypted pipelines matching internal API structures.
             </p>
             <div className="pt-4 border-t border-slate-900 text-xs font-mono text-slate-500">
-              DELIVERABLE: SECURE INTEGRATION MANUAL
+              DELIVERABLE: SECURE VPC INTEGRATION PLAN
             </div>
           </div>
 
@@ -658,7 +666,7 @@ export default function Home() {
               <BookOpen className="w-5 h-5 text-accent-purple" />
               <h3 className="font-display font-bold text-base text-white">Knowledge Resource Hub</h3>
             </div>
-            <p className="text-slate-305 text-xs md:text-sm font-sans mb-5 leading-relaxed">
+            <p className="text-slate-300 text-xs md:text-sm font-sans mb-5 leading-relaxed">
               Access technical architectures, compliance assessments, and data sovereignty blueprints prepared for CIOs and Chief Risk Officers.
             </p>
             <Link 
@@ -677,9 +685,9 @@ export default function Home() {
           <div className="glass-card rounded-xl p-6 border border-slate-850 flex flex-col justify-between glass-card-hover">
             <div>
               <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest block mb-2">SECTOR: BANKING & TREASURY</span>
-              <h3 className="font-display font-bold text-base text-white mb-3">SARB Exchange Control & BoP Automation</h3>
+              <h3 className="font-display font-bold text-base text-white mb-3">SARB ExCon Invariance: Securing R4.2B Daily Exchange Risk</h3>
               <p className="text-slate-400 text-xs md:text-sm leading-relaxed mb-6">
-                Integrated the Flipper engine with corporate treasury rails for a leading import conglomerate, automating real-time Balance of Payments filings.
+                Integrated the Flipper engine with corporate treasury rails for a JSE-listed import conglomerate, automating real-time Balance of Payments filings and removing manual filing bottlenecks.
               </p>
             </div>
             <div className="pt-4 border-t border-slate-900">
@@ -692,9 +700,9 @@ export default function Home() {
           <div className="glass-card rounded-xl p-6 border border-slate-850 flex flex-col justify-between glass-card-hover">
             <div>
               <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest block mb-2">SECTOR: FREIGHT & LOGISTICS</span>
-              <h3 className="font-display font-bold text-base text-white mb-3">Load-Shedding Fleet Dispatch Invariance</h3>
+              <h3 className="font-display font-bold text-base text-white mb-3">Gauteng Corridor Dispatch Invariance: Stage 6 Grid Immunity</h3>
               <p className="text-slate-400 text-xs md:text-sm leading-relaxed mb-6">
-                Deployed FieldForce neural dispatch nodes across distribution corridors in Gauteng, preventing logistics bottlenecks during grid shut-downs.
+                Deployed FieldForce neural dispatch nodes across corporate warehouses, routing freight transport assets dynamically around municipal power collapses and saving 14.8% in fuel.
               </p>
             </div>
             <div className="pt-4 border-t border-slate-900">
@@ -707,9 +715,9 @@ export default function Home() {
           <div className="glass-card rounded-xl p-6 border border-slate-850 flex flex-col justify-between glass-card-purple-hover">
             <div>
               <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest block mb-2">SECTOR: CORPORATE LAW & M&A</span>
-              <h3 className="font-display font-bold text-base text-white mb-3">POPIA-Native Contract Redline Audit</h3>
+              <h3 className="font-display font-bold text-base text-white mb-3">POPIA Section 19 Compliance: Triaging 18,500 Vendor Contracts</h3>
               <p className="text-slate-400 text-xs md:text-sm leading-relaxed mb-6">
-                Configured the Clarity engine to triage 18,500 historical vendor agreements, identifying POPIA Section 19 regulatory exposures in M&A due diligence.
+                Configured Clarity to audit and redline legacy vendor agreements during an M&A transaction, identifying compliance risks and compressing audit turnaround times by 88%.
               </p>
             </div>
             <div className="pt-4 border-t border-slate-900">
@@ -720,7 +728,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trust Signals & Engagement Form */}
+      {/* Trust Signals & Engagement Application Form */}
       <section id="retainer-portal" className="relative z-10 max-w-7xl mx-auto px-6 py-20 lg:py-32 border-t border-slate-900 bg-[#040406]/60 backdrop-blur-sm">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           
@@ -787,20 +795,20 @@ export default function Home() {
             <div className="glass-card rounded-xl p-8 border border-slate-850 relative">
               <div className="absolute top-0 right-0 w-32 h-32 bg-accent-purple/5 rounded-full blur-2xl"></div>
               
-              <h3 className="font-display text-2xl font-bold text-white mb-2">Request Architecture Audit</h3>
+              <h3 className="font-display text-2xl font-bold text-white mb-2">Executive Qualification Protocol</h3>
               <p className="text-slate-400 text-xs md:text-sm font-sans mb-8">
-                Due to strict regulatory governance and resource allocation, The Invariance Group engages exclusively via institutional retainer. Minimum quarterly commitments apply.
+                Due to strict regulatory governance and resource allocation, The Invariance Group engages exclusively via institutional retainer. Minimum SLA commitments apply.
               </p>
 
               {formSubmitted ? (
                 <div className="bg-emerald-950/40 border border-emerald-800 p-6 rounded-lg text-center py-12">
                   <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
-                  <h4 className="font-display font-bold text-lg text-white mb-2">Consultation Request Received</h4>
+                  <h4 className="font-display font-bold text-lg text-white mb-2">Credentials Received for Review</h4>
                   <p className="text-slate-300 text-sm max-w-md mx-auto mb-6">
-                    A technical client partner from our Johannesburg team will contact your office within 4 business hours to verify institutional credentials.
+                    A senior client partner from our Johannesburg team will contact your office within 4 business hours to verify institutional credentials and schedule your private briefing.
                   </p>
                   <span className="text-[10px] font-mono text-slate-500 block uppercase">
-                    REFERENCE ID: TIG-AUDIT-{Math.floor(100000 + Math.random() * 900000)}
+                    REFERENCE ID: TIG-BRIEFING-{Math.floor(100000 + Math.random() * 900000)}
                   </span>
                 </div>
               ) : (
@@ -862,19 +870,64 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-[10px] font-mono uppercase tracking-widest text-slate-400 mb-2">Core Operational Friction Area</label>
-                    <select 
-                      name="frictionArea"
-                      value={formData.frictionArea}
-                      onChange={handleInputChange}
-                      className="w-full bg-[#050507] border border-slate-800 rounded p-3 text-sm text-white focus:outline-none focus:border-accent-blue transition-colors font-mono appearance-none"
-                    >
-                      <option value="compliance">Compliance Invariance (POPIA/Contract Redlines)</option>
-                      <option value="capital">Capital Invariance (Exchange Control/SARB BoP)</option>
-                      <option value="logistics">Supply Chain Invariance (Neural Dispatch & Grid Protection)</option>
-                      <option value="revenue">Revenue Invariance (Secure Conversation Commerce)</option>
-                    </select>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-[10px] font-mono uppercase tracking-widest text-slate-400 mb-2">Core Operational Friction Area</label>
+                      <select 
+                        name="frictionArea"
+                        value={formData.frictionArea}
+                        onChange={handleInputChange}
+                        className="w-full bg-[#050507] border border-slate-800 rounded p-3 text-sm text-white focus:outline-none focus:border-accent-blue transition-colors font-mono appearance-none"
+                      >
+                        <option value="compliance">Compliance Invariance (POPIA/Contract Redlines)</option>
+                        <option value="capital">Capital Invariance (Exchange Control/SARB BoP)</option>
+                        <option value="logistics">Supply Chain Invariance (Neural Dispatch & Grid Protection)</option>
+                        <option value="revenue">Revenue Invariance (Secure Conversation Commerce)</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-mono uppercase tracking-widest text-slate-400 mb-2">Target Quarterly Budget Commitment</label>
+                      <select 
+                        name="budget"
+                        value={formData.budget}
+                        onChange={handleInputChange}
+                        className="w-full bg-[#050507] border border-slate-800 rounded p-3 text-sm text-white focus:outline-none focus:border-accent-blue transition-colors font-mono appearance-none"
+                      >
+                        <option value="tier1">R350,000 - R750,000 / Quarter (Sponsor Level)</option>
+                        <option value="tier2">R750,000+ / Quarter (Enterprise Level)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Pre-conditions Toggles */}
+                  <div className="space-y-3 pt-2">
+                    <label className="block text-[10px] font-mono uppercase tracking-widest text-slate-400">Compliance Pre-conditions</label>
+                    <div className="flex items-start gap-3">
+                      <input 
+                        type="checkbox"
+                        id="hasSovereignAuthority"
+                        name="hasSovereignAuthority"
+                        checked={formData.hasSovereignAuthority}
+                        onChange={handleInputChange}
+                        className="mt-1 h-4 w-4 rounded border-slate-800 bg-[#050507] text-accent-blue focus:ring-accent-blue"
+                      />
+                      <label htmlFor="hasSovereignAuthority" className="text-xs text-slate-400 font-sans leading-tight">
+                        We possess executive authorization to deploy isolated compute engines within our virtual private cloud (VPC) subnets.
+                      </label>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <input 
+                        type="checkbox"
+                        id="isSubjectToExCon"
+                        name="isSubjectToExCon"
+                        checked={formData.isSubjectToExCon}
+                        onChange={handleInputChange}
+                        className="mt-1 h-4 w-4 rounded border-slate-800 bg-[#050507] text-accent-blue focus:ring-accent-blue"
+                      />
+                      <label htmlFor="isSubjectToExCon" className="text-xs text-slate-400 font-sans leading-tight">
+                        Our operations are subject to South African Reserve Bank (SARB) Exchange Control and/or POPIA compliance requirements.
+                      </label>
+                    </div>
                   </div>
 
                   <div>
@@ -898,7 +951,7 @@ export default function Home() {
                       <span>Validating Credentials...</span>
                     ) : (
                       <>
-                        <span>Submit Architecture Audit Request</span>
+                        <span>Submit Credentials for Briefing Review</span>
                         <ArrowRight className="w-4 h-4" />
                       </>
                     )}
@@ -960,6 +1013,12 @@ export default function Home() {
               </ul>
             </div>
 
+          </div>
+
+          {/* Systems leadership and audit signals */}
+          <div className="mb-10 p-5 rounded-lg border border-slate-900 bg-[#050508]/40 font-sans text-xs text-slate-500 max-w-4xl">
+            <span className="text-white font-mono text-[10px] uppercase tracking-widest block mb-2 font-bold">SYSTEMS LEADERSHIP & SAFETY COMPLIANCE:</span>
+            Operated by former systems architects and logistics operations directors with a combined 40+ years in Gauteng's financial and transport corridors. Systems are audited annually by independent CREST-accredited cybersecurity agencies to guarantee air-gapped compute stability.
           </div>
 
           <div className="pt-8 border-t border-slate-950 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-600 font-mono text-[10px]">
