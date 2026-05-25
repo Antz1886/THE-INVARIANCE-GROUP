@@ -1,26 +1,103 @@
 @import "tailwindcss";
 
+@theme {
+  --color-accent-blue: #0088ff;
+  --color-accent-blue-glow: rgba(0, 136, 255, 0.15);
+  --color-accent-purple: #9d4edd;
+  --color-accent-purple-glow: rgba(157, 78, 221, 0.15);
+  
+  --color-brand-black: #030303;
+  --color-brand-dark: #0a0a0c;
+  --color-brand-slate-dark: #0d111c;
+  --color-brand-slate-light: #1e293b;
+  --color-brand-text-primary: #f8fafc;
+  --color-brand-text-secondary: #94a3b8;
+  
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-outfit);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #030303;
+  --foreground: #f8fafc;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Custom styles for elite B2B aesthetic */
+.tech-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
+
+.tech-grid-dots {
+  background-size: 20px 20px;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+}
+
+.glow-radial-blue {
+  background: radial-gradient(circle 500px at 50% 200px, rgba(0, 136, 255, 0.08), transparent 85%);
+}
+
+.glow-radial-purple {
+  background: radial-gradient(circle 500px at 80% 600px, rgba(157, 78, 221, 0.06), transparent 85%);
+}
+
+.glass-card {
+  background: rgba(10, 10, 12, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+.glass-card-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-hover:hover {
+  border-color: rgba(0, 136, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 136, 255, 0.03);
+  background: rgba(12, 12, 16, 0.85);
+  transform: translateY(-2px);
+}
+
+.glass-card-purple-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-purple-hover:hover {
+  border-color: rgba(157, 78, 221, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(157, 78, 221, 0.03);
+  background: rgba(12, 12, 16, 0.85);
+  transform: translateY(-2px);
+}
+
+.glass-nav {
+  background: rgba(3, 3, 3, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #030303;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
 }

@@ -1,0 +1,42 @@
+import { Shield, Lock } from "lucide-react";
+
+# SA Data Sovereignty & Isolated Compute: Operational Guardrails
+
+*Published by the Technical Board of The Invariance Group*  
+*Classification: Institutional Briefing • South Africa (Gauteng)*
+
+In South Africa's modern corporate landscape, compliance is not merely a legal checkbox; it is a fundamental pillar of operational stability. The Protection of Personal Information Act (POPIA), combined with local exchange control frameworks, mandates that financial, legal, and supply chain data be processed with absolute custody controls.
+
+This white paper details the isolated compute and sovereignty architecture implemented across all cognitive engines developed by The Invariance Group.
+
+## 1. Localized Data Resiliency
+
+All data processed by the **Compliance Invariance (Clarity)** and **Capital Invariance (Flipper)** engines remains entirely within the borders of South Africa.
+
+*   **Storage Sovereignty**: Data is housed exclusively in isolated local regions (e.g., Azure or Google Cloud Johannesburg regions) or private, air-gapped on-premise arrays in Midrand and Samrand.
+*   **Transborder Data Flow Rules**: All transborder data processing strictly aligns with Section 72 of POPIA. No data is routed outside of South African borders without explicit cryptographically signed consent and state-approved adequacy agreements.
+
+## 2. Air-Gapped Compute Isolation
+
+Rather than relying on shared SaaS infrastructure, our engines deploy as independent containers inside your enterprise tenant virtual private cloud (VPC).
+
+```bash
+# Example deployment verification command
+git-invariance verify-isolation --tenant=ZA-GP-SANDTON-01
+```
+
+> **Security Mandate**: Under no circumstances does raw client data traverse the public internet. All AI inference is conducted inside dedicated compute nodes configured with strict ingress/egress firewalls.
+
+## 3. Compliance Framework Mapping
+
+| Engine | Regulatory Focus | Safeguards |
+| :--- | :--- | :--- |
+| **Clarity** | POPIA Section 19 | Automated human-in-the-loop contract checks |
+| **Flipper** | SARB Exchange Control | Real-time BoP reporting & exception handling |
+| **FieldForce** | Critical Infrastructure | Edge AI offline resilience under grid stress |
+
+## 4. Retainer-Governed Audits
+
+All enterprise clients are provided with monthly automated compliance telemetry logs. Independent cybersecurity audits are facilitated quarterly through our Sandton headquarters.
+
+For inquiries regarding isolated tenant deployment, please contact the advisory board at [advisory@invariance.co.za](mailto:advisory@invariance.co.za).
